@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Throw : MonoBehaviour
@@ -9,6 +11,10 @@ public class Throw : MonoBehaviour
     [SerializeField] private float velocityMaxScaler;
     [SerializeField] private float velocityScalerMaxDistance;
     [SerializeField] private float velocityScalerMinDistance;
+
+    [SerializeField] private ColliderToggle colliderToggle;
+
+    public static event Action OnBallThrown;
     
 
     private void OnTriggerEnter(Collider other)
@@ -22,12 +28,12 @@ public class Throw : MonoBehaviour
     {
         float directionX = isThrowingRight ? 1 : -1;
         Vector3 baseThrowVelocity = new Vector3(throwVelocityX * directionX, throwVelocityY, 0);
-
         float handDistance = transform.position.x * -directionX;
-
         float velocityScaler = CalculateVelocityScaler(handDistance);
-
         rb.velocity = baseThrowVelocity * velocityScaler;
+        
+        colliderToggle.HandleBallThrown();
+        OnBallThrown?.Invoke();
     }
 
     float CalculateVelocityScaler(float distance)

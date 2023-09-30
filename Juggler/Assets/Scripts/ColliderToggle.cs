@@ -18,12 +18,13 @@ public class ColliderToggle : MonoBehaviour
     private void Start()
     {
         isActivatable = true;
-    }
+
+    }  
 
     // Update is called once per frame
     void Update()
     {
-        if (!isActivatable || !Input.GetKey(activateKey)) { return; }
+        if (!isActivatable || !Input.GetKeyDown(activateKey)) { return; }
 
         isActivatable = false;
         Invoke(nameof(SetActivatable), cooldown);
@@ -38,4 +39,10 @@ public class ColliderToggle : MonoBehaviour
     private void SetActivatable() { isActivatable = true; }
 
     private void DisableHitbox() { hitbox.enabled = false; }
+
+    public void HandleBallThrown()
+    {
+        SetActivatable();
+        CancelInvoke(nameof(SetActivatable));
+    }
 }
