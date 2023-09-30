@@ -1,29 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Throw : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float throwImpulseY;
+    [SerializeField] private bool isThrowingRight;
+    [SerializeField] private float throwVelocityY;
+    [SerializeField] private float throwVelocityX;
+
+    [SerializeField] private float velocityMaxScaler;
+    [SerializeField] private float velocityScalerMaxDistance;
+    [SerializeField] private float velocityScalerMinDistance;
+    
 
     private void OnTriggerEnter(Collider other)
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb == null) return;
-        rb.velocity = Vector3.zero;
-        rb.AddForce(CalculateThrowForce(), ForceMode.Impulse);
+        ThrowBall(rb);
     }
 
-    Vector3 CalculateThrowForce()
+    void ThrowBall(Rigidbody rb)
     {
-        // Calculate the direction from the left hand to the right hand
-        Vector3 direction = (target.position - transform.position).normalized;
+        float directionX = isThrowingRight ? 1 : -1;
+        Vector3 baseThrowVelocity = new Vector3(throwVelocityX * directionX, throwVelocityY, 0);
 
-        // Set the x-axis force based on the normalized direction and the desired y-axis force
-        float throwImpulseX = direction.x * throwImpulseY;
+        float handDistance = transform.position.x * -directionX;
 
-        // Create and return the resulting throw force vector
-        return new Vector3(throwImpulseX, throwImpulseY, 0f);
+        float velocityScaler = CalculateVelocityScaler(handDistance);
+
+        rb.velocity = baseThrowVelocity * velocityScaler;
     }
+
+    float CalculateVelocityScaler(float distance)
+    {
+        if (distance <= velocityScalerMinDistance)
+            return 1.0f;
+
+        if (distance >= velocityScalerMaxDistance)
+            return velocityMaxScaler;
+
+        // Linear interpolation for values between min and max distances
+        return Mathf.Lerp(1.0f, velocityMaxScaler, (distance - velocityScalerMinDistance) / (velocityScalerMaxDistance - velocityScalerMinDistance));
+    }
+
 }

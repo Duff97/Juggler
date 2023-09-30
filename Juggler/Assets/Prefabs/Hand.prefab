@@ -125,4 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47095592f44de3a4587ed3b7cd7daaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwImpulse: 8
+  isThrowingRight: 0
+  throwVelocityY: 8
+  throwVelocityX: 1.25
+  velocityMaxScaler: 2
+  velocityScalerMaxDistance: 5
+  velocityScalerMinDistance: 1.5
