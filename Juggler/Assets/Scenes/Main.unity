@@ -364,6 +364,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightHand
       objectReference: {fileID: 0}
+    - target: {fileID: 7751608408859420379, guid: ccf74ccdec06371409e5dbb959c24d62, type: 3}
+      propertyPath: activateKey
+      value: 115
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccf74ccdec06371409e5dbb959c24d62, type: 3}
 --- !u!4 &1249295874 stripped
@@ -443,6 +447,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftHand
       objectReference: {fileID: 0}
+    - target: {fileID: 7751608408859420379, guid: ccf74ccdec06371409e5dbb959c24d62, type: 3}
+      propertyPath: activateKey
+      value: 97
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccf74ccdec06371409e5dbb959c24d62, type: 3}
 --- !u!1001 &7675916174960687292
@@ -462,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7675916174919135510, guid: e966a99f8e85abe4cb2a6ae77c986530, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 4.78
       objectReference: {fileID: 0}
     - target: {fileID: 7675916174919135510, guid: e966a99f8e85abe4cb2a6ae77c986530, type: 3}
       propertyPath: m_LocalPosition.z
