@@ -15,7 +15,14 @@ public class BallSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke(nameof(SpawnBall), initialSpawnTime);
+        GameManager.OnGameSarted += HandleGameStart;
+        GameManager.OnGameEnded += HandleGameEnd;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameSarted -= HandleGameStart;
+        GameManager.OnGameEnded -= HandleGameEnd;
     }
 
     private void SpawnBall()
@@ -29,5 +36,15 @@ public class BallSpawner : MonoBehaviour
     {
         Bounds bounds = zone.bounds;
         return Random.Range(bounds.min.x, bounds.max.x);
+    }
+
+    private void HandleGameStart()
+    {
+        Invoke(nameof(SpawnBall), initialSpawnTime);
+    }
+
+    private void HandleGameEnd() 
+    {
+        CancelInvoke(nameof(SpawnBall));
     }
 }
