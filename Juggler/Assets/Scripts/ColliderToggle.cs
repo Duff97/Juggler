@@ -11,6 +11,7 @@ public class ColliderToggle : MonoBehaviour
 
     [Header("Reference")]
     [SerializeField] private Collider hitbox;
+    [SerializeField] private Animator animator;
     
     private bool isActivatable;
 
@@ -32,6 +33,8 @@ public class ColliderToggle : MonoBehaviour
         hitbox.enabled = true;
 
         Invoke(nameof(DisableHitbox), activeTime);
+
+        animator.SetTrigger("Throw");
 
         
     }
