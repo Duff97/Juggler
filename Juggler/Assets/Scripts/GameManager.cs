@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
         EnableObjects(true, GameStartEnable);
         EnableObjects(false, GameStartDisable);
         gameStarted = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void EndGame() 
@@ -39,6 +42,9 @@ public class GameManager : MonoBehaviour
         EnableObjects(true, GameEndEnable);
         EnableObjects(false, GameEndDisable);
         gameStarted = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void EnableObjects(bool enable, GameObject[] objects) 
