@@ -9,17 +9,27 @@ public class MouseMovement : MonoBehaviour
     [SerializeField] private float sensitivityScale;
     [SerializeField, Range(0, 1)] private int mouseButton;
 
+    private bool movementActive = false;
+
     private Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        GameManager.OnGameSarted += ActivateMovement;
+        GameManager.OnGameEnded += DeactivateMovement;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameSarted -= ActivateMovement;
+        GameManager.OnGameEnded -= DeactivateMovement;
     }
 
     private void FixedUpdate()
     {
 
-        if (Input.GetMouseButton(mouseButton)) {
+        if (!movementActive || Input.GetMouseButton(mouseButton)) {
             rb.velocity = Vector3.zero;
             return; 
         }
@@ -32,5 +42,15 @@ public class MouseMovement : MonoBehaviour
 
         // Move the object based on mouse movement
         rb.velocity = mouseMovement;
+    }
+
+    private void ActivateMovement()
+    {
+        movementActive = true;
+    }
+
+    private void DeactivateMovement()
+    {
+        movementActive = false;
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    [Header("Enable controls")]
     [SerializeField] private GameObject[] GameStartEnable;
     [SerializeField] private GameObject[] GameEndEnable;
     [SerializeField] private GameObject[] GameStartDisable;

@@ -733,11 +733,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: cd1c0808-0cb9-4b32-9278-e658def1c02e
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Juggler
+  organizationId: duff97
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
