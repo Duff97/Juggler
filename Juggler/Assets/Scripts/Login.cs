@@ -53,12 +53,7 @@ public class Login : MonoBehaviour
 
     private async Task<bool> SignInNewUser(string name)
     {
-        if (AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.DeleteAccountAsync();
-            AuthenticationService.Instance.SignOut();
-            AuthenticationService.Instance.ClearSessionToken();
-        }
+        await CleanupSession();
 
         if (!await SignIn()) return false;
 
@@ -81,5 +76,19 @@ public class Login : MonoBehaviour
         }
 
         return false;
+    }
+
+    private async void OnApplicationQuit()
+    {
+        await CleanupSession();
+    }
+
+    private async Task CleanupSession()
+    {
+        if (!AuthenticationService.Instance.IsSignedIn) return;
+
+        await AuthenticationService.Instance.DeleteAccountAsync();
+        AuthenticationService.Instance.SignOut();
+        AuthenticationService.Instance.ClearSessionToken();
     }
 }
