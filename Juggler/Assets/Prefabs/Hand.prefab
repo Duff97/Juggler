@@ -133,9 +133,9 @@ MonoBehaviour:
   isThrowingRight: 0
   throwVelocityY: 8
   throwVelocityX: 1.25
-  velocityMaxScaler: 2
-  velocityScalerMaxDistance: 5
-  velocityScalerMinDistance: 1.5
+  throwMaxDistance: 4
+  throwMinDistance: 2
+  throwTarget: {fileID: 0}
   colliderToggle: {fileID: 7751608408859420379}
 --- !u!114 &7751608408859420379
 MonoBehaviour:

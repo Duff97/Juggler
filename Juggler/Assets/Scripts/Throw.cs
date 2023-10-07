@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,9 +9,9 @@ public class Throw : MonoBehaviour
     [SerializeField] private float throwVelocityY;
     [SerializeField] private float throwVelocityX;
 
-    [SerializeField] private float velocityMaxScaler;
-    [SerializeField] private float velocityScalerMaxDistance;
-    [SerializeField] private float velocityScalerMinDistance;
+    [SerializeField] private float throwMaxDistance;
+    [SerializeField] private float throwMinDistance;
+    [SerializeField] private Transform throwTarget;
 
     [SerializeField] private ColliderToggle colliderToggle;
 
@@ -24,28 +25,24 @@ public class Throw : MonoBehaviour
         ThrowBall(rb);
     }
 
-    void ThrowBall(Rigidbody rb)
+    private void ThrowBall(Rigidbody rb)
     {
         float directionX = isThrowingRight ? 1 : -1;
         Vector3 baseThrowVelocity = new Vector3(throwVelocityX * directionX, throwVelocityY, 0);
-        float handDistance = transform.position.x * -directionX;
+        float handDistance = (throwTarget.position.x - transform.position.x) * directionX;
         float velocityScaler = CalculateVelocityScaler(handDistance);
-        rb.velocity = baseThrowVelocity * velocityScaler;
+        baseThrowVelocity.x *= velocityScaler;
+        rb.velocity = baseThrowVelocity;
         
         colliderToggle.HandleBallThrown();
         OnBallThrown?.Invoke();
     }
 
-    float CalculateVelocityScaler(float distance)
+    private float CalculateVelocityScaler(float distance)
     {
-        if (distance <= velocityScalerMinDistance)
-            return 1.0f;
+        distance = Mathf.Clamp(distance, throwMinDistance, throwMaxDistance);
 
-        if (distance >= velocityScalerMaxDistance)
-            return velocityMaxScaler;
-
-        // Linear interpolation for values between min and max distances
-        return Mathf.Lerp(1.0f, velocityMaxScaler, (distance - velocityScalerMinDistance) / (velocityScalerMaxDistance - velocityScalerMinDistance));
+        return distance / throwMinDistance;
     }
 
 }
