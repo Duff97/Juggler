@@ -20,11 +20,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         BallCollector.OnBallCollected += HandleBallCollected;
+        TransitionManager.OnTransitionToGame += HandleTransitionToGame;
     }
 
     private void OnDestroy()
     {
         BallCollector.OnBallCollected -= HandleBallCollected;
+        TransitionManager.OnTransitionToGame -= HandleTransitionToGame;
     }
 
     public void StartGame()
@@ -62,5 +64,10 @@ public class GameManager : MonoBehaviour
         if (!gameStarted) { return; }
 
         EndGame();
+    }
+
+    private void HandleTransitionToGame()
+    {
+        StartGame();
     }
 }
