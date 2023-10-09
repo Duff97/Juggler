@@ -10,7 +10,10 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private Curtain curtain;
 
     public static event Action OnTransitionToGame;
+    public static event Action OnTransitionToGameStart;
+
     public static event Action OnTransitionToTitle;
+    public static event Action OnTransitionToTitleStart;
 
     private void Start()
     {
@@ -26,6 +29,7 @@ public class TransitionManager : MonoBehaviour
 
     public void GameTransition()
     {
+        OnTransitionToGameStart.Invoke();
         ToggleLights(false);
         curtain.Open();
         
@@ -33,6 +37,7 @@ public class TransitionManager : MonoBehaviour
 
     public void TitleTransition()
     {
+        OnTransitionToTitleStart?.Invoke();
         ToggleLights(true);
         curtain.Close();
     }
