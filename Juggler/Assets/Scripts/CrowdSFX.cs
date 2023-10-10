@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sound : MonoBehaviour
+public class CrowdSFX : MonoBehaviour
 {
     [SerializeField] private AudioSource crowdMurmuring;
     [SerializeField] private AudioSource crowdCheering;
