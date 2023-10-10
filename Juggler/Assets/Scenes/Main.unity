@@ -17962,6 +17962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a82d65d55dccd340b556e26de1af387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxEntries: 100
   ScoreContainer: {fileID: 359620835}
   ScoreItemPrefab: {fileID: 2889999022554605256, guid: b845361f73e3c0c40b42d878801641bd, type: 3}
 --- !u!1001 &1795754263
