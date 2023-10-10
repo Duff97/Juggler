@@ -17,10 +17,12 @@ public class Audience : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        setRandomMaterial();
+        transform.LookAt(new Vector3(0, transform.position.y));
 
+        setRandomMaterial();
         TransitionManager.OnTransitionToGameStart += StartCheering;
         TransitionManager.OnTransitionToGame += StopCheering;
+        TransitionManager.OnTransitionToTitleStart += StartCheeringWithStop;
         GameManager.OnGameSarted += StartCheeringWithStop;
 
     }
@@ -49,6 +51,7 @@ public class Audience : MonoBehaviour
     private void StartCheering()
     {
         isCheering = true;
+        playRandomAnim();
     }
 
     private void StopCheering()
@@ -60,6 +63,7 @@ public class Audience : MonoBehaviour
     private void StartCheeringWithStop()
     {
         isCheering = true;
+        playRandomAnim();
         Invoke(nameof(StopCheering), CheerTime);
     }
 
