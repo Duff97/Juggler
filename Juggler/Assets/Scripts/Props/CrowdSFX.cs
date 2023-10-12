@@ -13,17 +13,19 @@ public class CrowdSFX : MonoBehaviour
     private void Start()
     {
         TransitionManager.OnTransitionToGameStart += HandleTransitionToGameStart;
-        TransitionManager.OnTransitionToTitleStart += HandleTransitionToTitleStart;
-        GameManager.OnGameSarted += HandleGameStart;
+        TransitionManager.OnTransitionToTitleStart += PlayApplauds;
+        GameManager.OnGameSarted += PlayApplauds;
         GameManager.OnGameEnded += HandleGameEnd;
+        Ball.OnFirstThrow += PlayApplauds;
     }
 
     private void OnDestroy()
     {
         TransitionManager.OnTransitionToGameStart -= HandleTransitionToGameStart;
-        TransitionManager.OnTransitionToTitleStart -= HandleTransitionToTitleStart;
-        GameManager.OnGameSarted -= HandleGameStart;
+        TransitionManager.OnTransitionToTitleStart -= PlayApplauds;
+        GameManager.OnGameSarted -= PlayApplauds;
         GameManager.OnGameEnded -= HandleGameEnd;
+        Ball.OnFirstThrow -= PlayApplauds;
     }
 
     private void HandleTransitionToGameStart()
@@ -32,18 +34,13 @@ public class CrowdSFX : MonoBehaviour
         crowdCheering.Play();
     }
 
-    private void HandleTransitionToTitleStart()
-    {
-        crowdApplauding.Play();
-    }
-
-    private void HandleGameStart()
-    {
-        crowdApplauding.Play();
-    }
-
     private void HandleGameEnd()
     {
         crowdDisappointed.Play();
+    }
+
+    private void PlayApplauds()
+    {
+        crowdApplauding.Play();
     }
 }

@@ -31,6 +31,14 @@ public class Login : MonoBehaviour
 
         if (name.Length == 0 || name.Length > 30) return;
 
+        var filter = new ProfanityFilter.ProfanityFilter();
+
+        if (filter.IsProfanity(name))
+        {
+            Debug.Log("PROFANITY DETECTED");
+            return;
+        }
+
         await SignInNewUser(name);
 
         completeLogin();

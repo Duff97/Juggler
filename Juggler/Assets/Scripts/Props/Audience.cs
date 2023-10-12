@@ -14,7 +14,6 @@ public class Audience : MonoBehaviour
 
     private bool isCheering;
 
-    // Start is called before the first frame update
     void Start()
     {
         transform.LookAt(new Vector3(0, transform.position.y));
@@ -24,7 +23,17 @@ public class Audience : MonoBehaviour
         TransitionManager.OnTransitionToGame += StopCheering;
         TransitionManager.OnTransitionToTitleStart += StartCheeringWithStop;
         GameManager.OnGameSarted += StartCheeringWithStop;
+        Ball.OnFirstThrow += StartCheeringWithStop;
 
+    }
+
+    private void OnDestroy()
+    {
+        TransitionManager.OnTransitionToGameStart -= StartCheering;
+        TransitionManager.OnTransitionToGame -= StopCheering;
+        TransitionManager.OnTransitionToTitleStart -= StartCheeringWithStop;
+        GameManager.OnGameSarted -= StartCheeringWithStop;
+        Ball.OnFirstThrow -= StartCheeringWithStop;
     }
 
     private void Update()

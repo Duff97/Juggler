@@ -13,8 +13,6 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private GameObject ScoreContainer;
     [SerializeField] private ScoreItem ScoreItemPrefab;
 
-    private const string LEADERBOARD_ID = "Top100";
-
     private void Start()
     {
         Login.OnLoginSuccess += RefreshScores;
@@ -29,7 +27,7 @@ public class Leaderboard : MonoBehaviour
     {
         foreach (Transform child in ScoreContainer.transform) { Destroy(child.gameObject); }
 
-        var scores = await LeaderboardsService.Instance.GetScoresAsync(LEADERBOARD_ID);
+        var scores = await LeaderboardsService.Instance.GetScoresAsync(Configuration.Instance.GetLeaderboardId());
 
         bool alt = false;
 
@@ -44,10 +42,10 @@ public class Leaderboard : MonoBehaviour
 
     public async void AddScore(int score)
     {
-        var scores = await LeaderboardsService.Instance.GetScoresAsync(LEADERBOARD_ID);
+        var scores = await LeaderboardsService.Instance.GetScoresAsync(Configuration.Instance.GetLeaderboardId());
         if (scores.Results.Count >= maxEntries && score <= scores.Results[maxEntries - 1].Score) return;
 
-        await LeaderboardsService.Instance.AddPlayerScoreAsync(LEADERBOARD_ID, score);
+        await LeaderboardsService.Instance.AddPlayerScoreAsync(Configuration.Instance.GetLeaderboardId(), score);
         RefreshScores();
     }
         

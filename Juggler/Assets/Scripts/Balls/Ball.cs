@@ -1,9 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+
+    private bool hasBeenThrown = false;
+
+    public static event Action OnFirstThrow;
 
     private void Start()
     {
@@ -18,6 +21,14 @@ public class Ball : MonoBehaviour
     private void Remove()
     {
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasBeenThrown) return;
+
+        hasBeenThrown = true;
+        OnFirstThrow?.Invoke();
     }
 
 
