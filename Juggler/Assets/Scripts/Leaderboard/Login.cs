@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Authentication;
@@ -9,65 +8,54 @@ using UnityEngine;
 
 public class Login : MonoBehaviour
 {
+    [Header("Name rules")]
+    [SerializeField] private int MinNameLength;
+    [SerializeField] private int MaxNameLength;
 
+    [Header("References")]
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject titlePanel;
     [SerializeField] private TMP_InputField nameInput;
 
     public static event Action OnLoginSuccess;
+    public static event Action OnLoginFailure;
+    public static event Action OnPlayerNameChanged;
+
+    private static readonly Regex AlphanumericRegex = new Regex("^[a-zA-Z0-9]*$");
 
     private async void Start()
     {
         await UnityServices.InitializeAsync();
-
-        if (!await SignInCachedUser()) return;
-
-        completeLogin();
+        
+        if (await SignIn())
+            loginPanel.SetActive(true);
+        else
+            titlePanel.SetActive(true);
     }
 
-    public async void LoginNewUser()
+    public async void ChangePlayerNameAsync()
     {
         string name = nameInput.text;
 
-        if (name.Length == 0 || name.Length > 30) return;
-
-        var filter = new ProfanityFilter.ProfanityFilter();
-
-        if (filter.IsProfanity(name))
+        if (!IsValidName(name))
         {
-            Debug.Log("PROFANITY DETECTED");
+            Message.Instance.DisplayMessage("The name you entered is not valid or contains bad words :(<br><br>You were assigned a random name instead");
             return;
         }
 
-        await SignInNewUser(name);
-
-        completeLogin();
-
-    }
-
-    private void completeLogin()
-    {
-        loginPanel.SetActive(false);
-        titlePanel.SetActive(true);
-        OnLoginSuccess?.Invoke();
-    }
-
-    private async Task<bool> SignInCachedUser()
-    {
-        if (!AuthenticationService.Instance.SessionTokenExists) return false;
-
-        return await SignIn();
-    }
-
-    private async Task<bool> SignInNewUser(string name)
-    {
-        await CleanupSession();
-
-        if (!await SignIn()) return false;
-
         await AuthenticationService.Instance.UpdatePlayerNameAsync(name);
 
-        return true;
+        OnPlayerNameChanged?.Invoke();
+    }
+
+    private bool IsValidName(string name)
+    {
+        var filter = new ProfanityFilter.ProfanityFilter();
+
+        return name.Length >= MinNameLength &&
+               name.Length <= MaxNameLength &&
+               AlphanumericRegex.IsMatch(name) &&
+               !filter.IsProfanity(name);
     }
 
     private async Task<bool> SignIn()
@@ -76,10 +64,14 @@ public class Login : MonoBehaviour
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
+            OnLoginSuccess?.Invoke();
+
             return true;
         }
         catch (Exception ex)
         {
+            Message.Instance.DisplayMessage("<b>Connection error</b><br><br>You will not have access to the leaderboard");
+            OnLoginFailure?.Invoke();
             Debug.LogException(ex);
         }
 

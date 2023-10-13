@@ -15,12 +15,13 @@ public class PlayerName : MonoBehaviour
     private void Start()
     {
         DisplayName();
-        Login.OnLoginSuccess += DisplayName;
+        Login.OnPlayerNameChanged += DisplayName;
+
     }
 
     private void OnDestroy()
     {
-        Login.OnLoginSuccess -= DisplayName;
+        Login.OnPlayerNameChanged -= DisplayName;
     }
 
     private async void DisplayName()
@@ -31,6 +32,7 @@ public class PlayerName : MonoBehaviour
         }
         catch (Exception ex)
         {
+            nameText.enabled = false;
             Debug.LogException(ex);
         }
     }
