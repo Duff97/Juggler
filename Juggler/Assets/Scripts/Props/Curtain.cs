@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class Curtain : MonoBehaviour
 {
-    [SerializeField] float moveVelocity;
-    [SerializeField] float openedDistance;
-
+    [SerializeField] private float moveVelocity;
+    [SerializeField] private float openedDistance;
+    [SerializeField] private GameObject curtainObj;
+    
     private Rigidbody rb;
 
     private bool isOpening;
@@ -23,6 +24,7 @@ public class Curtain : MonoBehaviour
 
     public void Open()
     {
+        curtainObj.SetActive(true);
         isOpening = true;
         isClosing = false;
 
@@ -31,6 +33,7 @@ public class Curtain : MonoBehaviour
 
     public void Close()
     {
+        curtainObj.SetActive(true);
         isClosing = true;
         isOpening = false;
 
@@ -61,6 +64,7 @@ public class Curtain : MonoBehaviour
     {
         if (transform.position.x > openedDistance) return false;
 
+        curtainObj.SetActive(false);
         OnOpened?.Invoke();
         return true;
     }

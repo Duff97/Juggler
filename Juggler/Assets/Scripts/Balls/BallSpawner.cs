@@ -18,6 +18,7 @@ public class BallSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ballPreviewObj.SetActive(false);
         GameManager.OnGameSarted += HandleGameStart;
         GameManager.OnGameEnded += HandleGameEnd;
     }
@@ -44,12 +45,14 @@ public class BallSpawner : MonoBehaviour
 
     private void HandleGameStart()
     {
+        ballPreviewObj.SetActive(true);
         PlaceBallPreview();
         Invoke(nameof(SpawnBall), initialSpawnTime);
     }
 
     private void HandleGameEnd() 
     {
+        ballPreviewObj.SetActive(false);
         CancelInvoke(nameof(SpawnBall));
     }
 
