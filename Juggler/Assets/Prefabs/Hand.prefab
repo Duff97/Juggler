@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isThrowingRight: 0
-  throwVelocityY: 8
-  throwVelocityX: 1.25
+  throwVelocityY: 7
+  throwVelocityX: 1
   throwMaxDistance: 4
   throwMinDistance: 2
   throwTarget: {fileID: 0}
