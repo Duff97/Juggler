@@ -10,13 +10,15 @@ public class MouseMovement : MonoBehaviour
     [SerializeField, Range(0, 1)] private int mouseButton;
 
     private bool movementActive = false;
-
+    private Vector3 initialPosition;
     private Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
         GameManager.OnGameSarted += ActivateMovement;
+        TransitionManager.OnTransitionToGameStart += ActivateMovement;
         GameManager.OnGameEnded += DeactivateMovement;
     }
 
@@ -24,6 +26,7 @@ public class MouseMovement : MonoBehaviour
     {
         GameManager.OnGameSarted -= ActivateMovement;
         GameManager.OnGameEnded -= DeactivateMovement;
+        TransitionManager.OnTransitionToGameStart -= ActivateMovement;
     }
 
     private void FixedUpdate()
@@ -46,6 +49,9 @@ public class MouseMovement : MonoBehaviour
 
     private void ActivateMovement()
     {
+        if (movementActive) return;
+
+        transform.position = initialPosition;
         movementActive = true;
     }
 

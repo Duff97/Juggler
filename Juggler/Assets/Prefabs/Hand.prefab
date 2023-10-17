@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2309338947977049153}
   - component: {fileID: 2309338947977049152}
   - component: {fileID: 7751608408859420379}
-  - component: {fileID: 8303754127168570923}
   - component: {fileID: 1576785904864145980}
   m_Layer: 6
   m_Name: Hand
@@ -154,18 +153,6 @@ MonoBehaviour:
   activeTime: 0.05
   hitbox: {fileID: 2309338947977049213}
   animator: {fileID: 1816188266306528975}
---- !u!114 &8303754127168570923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2309338947977049214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aa77769ab01eb24db9c6987bcbf0d07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1576785904864145980
 Rigidbody:
   m_ObjectHideFlags: 0

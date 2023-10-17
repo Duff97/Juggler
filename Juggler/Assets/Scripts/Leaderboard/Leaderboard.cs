@@ -14,45 +14,53 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private int maxEntries;
 
     [Header("References")]
-    [SerializeField] private GameObject ScoreContainer;
-    [SerializeField] private ScoreItem ScoreItemPrefab;
-    [SerializeField] private GameObject ErrorText;
+    [SerializeField] private GameObject scorePanel;
+    [SerializeField] private GameObject scoreContainer;
+    [SerializeField] private ScoreItem scoreItemPrefab;
+    [SerializeField] private GameObject errorText;
 
     private void Start()
     {
         Login.OnLoginSuccess += RefreshScores;
+        GameManager.OnGameEnded += ShowLeaderBoard;
+        GameManager.OnGameSarted += HideLeaderBoard;
+        TransitionManager.OnTransitionToGameStart += HideLeaderBoard;
+
     }
 
     private void OnDestroy()
     {
         Login.OnLoginSuccess -= RefreshScores;
+        GameManager.OnGameEnded -= ShowLeaderBoard;
+        GameManager.OnGameSarted -= HideLeaderBoard;
+        TransitionManager.OnTransitionToGameStart -= HideLeaderBoard;
     }
 
     public async void RefreshScores()
     {
-        foreach (Transform child in ScoreContainer.transform) { Destroy(child.gameObject); }
+        foreach (Transform child in scoreContainer.transform) { Destroy(child.gameObject); }
         
         try
         {
             var scores = await LeaderboardsService.Instance.GetScoresAsync(Configuration.Instance.GetLeaderboardId());
 
-            ErrorText.SetActive(false);
+            errorText.SetActive(false);
 
             bool alt = false;
 
             for (int i = 0; i < scores.Results.Count && i < maxEntries; i++)
             {
                 var score = scores.Results[i];
-                ScoreItem scoreItem = Instantiate(ScoreItemPrefab);
+                ScoreItem scoreItem = Instantiate(scoreItemPrefab);
                 scoreItem.SetValues(score.Rank + 1, score.PlayerName, score.Score, alt);
-                scoreItem.transform.SetParent(ScoreContainer.transform, false);
+                scoreItem.transform.SetParent(scoreContainer.transform, false);
                 alt = !alt;
             }
         }
         catch(Exception ex)
         {
             Debug.LogException(ex);
-            ErrorText.SetActive(true);
+            errorText.SetActive(true);
 
         }
     }
@@ -65,5 +73,15 @@ public class Leaderboard : MonoBehaviour
         await LeaderboardsService.Instance.AddPlayerScoreAsync(Configuration.Instance.GetLeaderboardId(), score);
         RefreshScores();
     }
-        
+
+    private void HideLeaderBoard()
+    {
+        scorePanel.SetActive(false);
+    }
+
+    private void ShowLeaderBoard()
+    {
+        scorePanel.SetActive(true);
+    }
+
 }

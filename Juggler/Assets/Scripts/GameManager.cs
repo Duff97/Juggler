@@ -21,12 +21,14 @@ public class GameManager : MonoBehaviour
     {
         BallCollector.OnBallCollected += HandleBallCollected;
         TransitionManager.OnTransitionToGame += HandleTransitionToGame;
+        TransitionManager.OnTransitionToGameStart += HandleTransitionToGameStart;
     }
 
     private void OnDestroy()
     {
         BallCollector.OnBallCollected -= HandleBallCollected;
         TransitionManager.OnTransitionToGame -= HandleTransitionToGame;
+        TransitionManager.OnTransitionToGameStart -= HandleTransitionToGameStart;
     }
 
     public void StartGame()
@@ -69,5 +71,11 @@ public class GameManager : MonoBehaviour
     private void HandleTransitionToGame()
     {
         StartGame();
+    }
+
+    private void HandleTransitionToGameStart()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
