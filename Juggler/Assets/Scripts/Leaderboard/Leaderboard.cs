@@ -42,7 +42,7 @@ public class Leaderboard : MonoBehaviour
         
         try
         {
-            var scores = await LeaderboardsService.Instance.GetScoresAsync(Configuration.Instance.GetLeaderboardId());
+            var scores = await LeaderboardsService.Instance.GetScoresAsync(Configuration.Instance.GetLeaderboardId(), new GetScoresOptions { Limit = maxEntries});
 
             errorText.SetActive(false);
 
